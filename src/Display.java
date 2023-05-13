@@ -1,37 +1,89 @@
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-public class Display {
-    private JFrame o = new JFrame();
-    private JButton mSort = new JButton("Merge Sort");
-    private JButton iSort = new JButton("Insertion Sort");
-    private JButton sSort = new JButton("Selection Sort");
-    private JButton bSort = new JButton("Bubble Sort");
-    private JButton qSort = new JButton("Quick Sort");
-    private JButton bkSort = new JButton("Bucket Sort");
-    private JButton rSort = new JButton("Radix Sort");
-    private JButton[] buttons = {mSort, iSort, sSort, bSort, qSort, bkSort, rSort};
-    private JButton addData = new JButton("Change data set");
+public class Display implements ChangeListener, ActionListener {
     private ArrayList<Integer> arr;
+    private final JFrame o = new JFrame();
+    private final JButton mSort = new JButton("Merge Sort");
+    private final JButton iSort = new JButton("Insertion Sort");
+    private final JButton sSort = new JButton("Selection Sort");
+    private final JButton bSort = new JButton("Bubble Sort");
+    private final JButton qSort = new JButton("Quick Sort");
+    private final JButton bkSort = new JButton("Bucket Sort");
+    private final JButton rSort = new JButton("Radix Sort");
+    private final JButton[] buttons = {mSort, iSort, sSort, bSort, qSort, bkSort, rSort};
+    private final JSlider slider = new JSlider(JSlider.HORIZONTAL, 1, 500, 25);
+    private final JLabel sliderDescription = new JLabel("Adjust number range & sorting speed:");
+    private JLabel displayedArr;
 
     public Display(ArrayList<Integer> arr) {
         this.arr = arr;
+        this.displayedArr = new JLabel(this.arrToStr(this.arr));
 
-        //TODO make gui display the array to be sorted, and make it possible to change the array(modify data.txt)
-
-        o.setLayout(null);
         int xPos = 0, yPos = 0, width = 100, height = 40;
         for(JButton i : buttons) {
             i.setBounds(xPos, yPos, width, height);
+            i.addActionListener(this);
             o.add(i);
             xPos += 100;
         }
-        addData.setBounds(0, 40, 120, height);
-        o.add(addData);
 
+        sliderDescription.setBounds(15, 40, 700, height);
+        slider.setBounds(0, 80, 700, height);
+        slider.addChangeListener(this::stateChanged);
+        displayedArr.setBounds(15, 120, 1440, height);
+        o.add(sliderDescription);
+        o.add(slider);
+        o.add(displayedArr);
+
+        o.setLayout(null);
         o.setSize(1440, 900);
         o.setVisible(true);
-
     }
 
+    public ArrayList<Integer> randomize(int n) {
+        ArrayList<Integer> arr = new ArrayList<Integer>();
+        for(int i=0;i<n;i++) {
+            arr.add((int) (Math.random()*n)+1);
+//            arr.add((int) (Math.random()*500)+1);
+        }
+        return arr;
+    }
+
+    public String arrToStr(ArrayList<Integer> arr){
+        String result = "";
+        for(int i : arr) {
+            result += i + ", ";
+        }
+        return result;
+    }
+    @Override
+    public void stateChanged(ChangeEvent e) {
+        int n = ((JSlider)e.getSource()).getValue();
+        this.arr = randomize(n);
+        this.displayedArr.setText(this.arrToStr(this.arr));
+        this.o.add(displayedArr);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+    }
 }
+
+/*
+TODO:
+    -Display number bars
+    -Finish 1 sorting alg
+    -Set speed of alg using slider
+    -Finish button for said alg
+    -Add colors for selected, compared, and changed nums
+    -Add rest of sorting algs
+    -Change random slider alg?
+    -Final touches, add description of each alg?
+ */
