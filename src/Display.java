@@ -49,8 +49,11 @@ public class Display implements ChangeListener, ActionListener {
     public ArrayList<Integer> randomize(int n) {
         ArrayList<Integer> arr = new ArrayList<Integer>();
         for(int i=0;i<n;i++) {
-            arr.add((int) (Math.random()*n)+1);
-//            arr.add((int) (Math.random()*500)+1);
+            if(n<10) {
+                arr.add((int) (Math.random()*9)+1);
+            } else {
+                arr.add((int) (Math.random()*n)+1);
+            }
         }
         return arr;
     }
