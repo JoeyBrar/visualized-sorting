@@ -3,7 +3,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.reflect.Array;
+import java.awt.Graphics;
 import java.util.ArrayList;
 
 public class Display implements ChangeListener, ActionListener {
@@ -20,6 +20,8 @@ public class Display implements ChangeListener, ActionListener {
     private final JSlider slider = new JSlider(JSlider.HORIZONTAL, 1, 500, 25);
     private final JLabel sliderDescription = new JLabel("Adjust number range & sorting speed:");
     private JLabel displayedArr;
+    private double barWidth, displaySpeed;
+    private int maxBarHeight = 580;
 
     public Display(ArrayList<Integer> arr) {
         this.arr = arr;
@@ -69,6 +71,8 @@ public class Display implements ChangeListener, ActionListener {
     public void stateChanged(ChangeEvent e) {
         int n = ((JSlider)e.getSource()).getValue();
         this.arr = randomize(n);
+        this.barWidth = 1240/n; //1440, but we take 100 from left and right sides
+        this.displaySpeed = 1/n; //in ms? needs adjustment
         this.displayedArr.setText(this.arrToStr(this.arr));
         this.o.add(displayedArr);
     }
@@ -77,10 +81,16 @@ public class Display implements ChangeListener, ActionListener {
     public void actionPerformed(ActionEvent e) {
 
     }
+
+    public double calculateBarHeightRelativeToMaxBarHeight(double n, double biggest) {
+        return maxBarHeight * (n/biggest);
+    }
+
 }
 
 /*
 TODO:
+    -Test to see if boundaries work
     -Display number bars
     -Finish 1 sorting alg
     -Set speed of alg using slider
