@@ -1,9 +1,10 @@
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.Graphics;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 public class Display implements ChangeListener, ActionListener {
@@ -20,8 +21,11 @@ public class Display implements ChangeListener, ActionListener {
     private final JSlider slider = new JSlider(JSlider.HORIZONTAL, 1, 500, 25);
     private final JLabel sliderDescription = new JLabel("Adjust number range & sorting speed:");
     private JLabel displayedArr;
-    private double barWidth, displaySpeed;
+    private double displaySpeed;
     private int maxBarHeight = 580;
+    JPanel panel = new JPanel();
+    Graphics2D g2 = null;
+    ArrayList<Rectangle2D> arrRects;
 
     public Display(ArrayList<Integer> arr) {
         this.arr = arr;
@@ -46,6 +50,15 @@ public class Display implements ChangeListener, ActionListener {
         o.setLayout(null);
         o.setSize(1440, 900);
         o.setVisible(true);
+
+        panel.setBounds(15, 200, 1410, 680);
+        o.add(panel);
+
+        Graphics g = o.getGraphics();
+        g2 = (Graphics2D) g;
+
+        arrRects = new ArrayList<Rectangle2D>();
+
     }
 
     public ArrayList<Integer> randomize(int n) {
@@ -67,14 +80,31 @@ public class Display implements ChangeListener, ActionListener {
         }
         return result;
     }
+
     @Override
     public void stateChanged(ChangeEvent e) {
         int n = ((JSlider)e.getSource()).getValue();
         this.arr = randomize(n);
-        this.barWidth = 1240/n; //1440, but we take 100 from left and right sides
         this.displaySpeed = 1/n; //in ms? needs adjustment
         this.displayedArr.setText(this.arrToStr(this.arr));
-        this.o.add(displayedArr);
+        this.o.add(this.displayedArr);
+        displayState(this.arr, this.g2);
+    }
+
+    public void displayState(ArrayList<Integer> arr, Graphics g) {
+        Rectangle bounds = panel.getBounds();
+        g2.clearRect(15, 200, bounds.width+1, bounds.height+1);
+        int x = 15, y = 200;
+        int biggest = -1;
+        for(int i : arr) {
+            if(biggest<i) biggest = i;
+        }
+        for(int i : arr) {
+            Rectangle2D r = new Rectangle2D.Double(x, y, 1410.0 / arr.size(), calculateBarHeightRelativeToMaxBarHeight(i, biggest));
+            arrRects.add(r);
+            g2.fill(r);
+            x += 1410.0 / arr.size();
+        }
     }
 
     @Override
@@ -89,14 +119,13 @@ public class Display implements ChangeListener, ActionListener {
 }
 
 /*
-TODO:
-    -Test to see if boundaries work
-    -Display number bars
+TODO:2
     -Finish 1 sorting alg
     -Set speed of alg using slider
     -Finish button for said alg
+    -Animate alg
     -Add colors for selected, compared, and changed nums
+    -Add number input to change arr length, set max arr length to what fills the screen
     -Add rest of sorting algs
-    -Change random slider alg?
-    -Final touches, add description of each alg?
+    -Final touches
  */
