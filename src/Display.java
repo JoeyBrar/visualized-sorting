@@ -87,7 +87,7 @@ public class Display implements ChangeListener, ActionListener {
     public void stateChanged(ChangeEvent e) {
         int n = ((JSlider)e.getSource()).getValue();
         this.arr = randomize(n);
-        this.displaySpeed = 1000/n;
+        this.displaySpeed = 10000/n;
         this.displayedArr.setText(this.arrToStr(this.arr));
         this.o.add(this.displayedArr);
         displayState(this.arr, this.g2);
@@ -113,7 +113,8 @@ public class Display implements ChangeListener, ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(iSort)) {
             iSortObj = new InsertionSort(arr);
-            for(int i=1;i<this.arr.size();i++){
+            for(int i=1;i<=this.arr.size();i++){
+                System.out.println(i);
                 this.arr = iSortObj.sort(arr, i);
                 displayState(this.arr, this.g2);
                 this.displayedArr.setText(this.arrToStr(this.arr));
@@ -126,7 +127,6 @@ public class Display implements ChangeListener, ActionListener {
                     throw new RuntimeException(ex);
                 }
 
-                i++;
             }
         }
     }
@@ -139,10 +139,9 @@ public class Display implements ChangeListener, ActionListener {
 
 /*
 TODO:
-    -fix merge sort
-    -Set speed of alg using slider
     -Add colors for selected, compared, and changed nums
     -Add number input to change arr length(same w/ speed), set max arr length to what fills the screen
+    -Set speed of alg using slider
     -Add apcsa sorting algs
     -update readme
     -Final touches + add rest of algs

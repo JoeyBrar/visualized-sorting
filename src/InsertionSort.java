@@ -12,18 +12,15 @@ public class InsertionSort {
     }
 
     public ArrayList<Integer> sort(ArrayList<Integer> arr, int n) {
-        for (int i=1;i<=n;i++) {
+        System.out.println(arr.size() + ", " + n);
+        for (int i=1;i<n;i++) {
             int next = arr.get(i);
-            // find the insertion location while moving all larger element up
-            int j = i;
-            while (j>0&&arr.get(j - 1)>next) {
-                int temp = arr.get(j);
-                arr.set(j, arr.get(j-1));
-                arr.set(j-1, temp);
+            int j = i-1;
+            while (j>=0&&arr.get(j)>next) {
+                arr.set(j+1, arr.get(j));
                 j--;
             }
-            // insert the element
-            arr.set(j, next);
+            arr.set(j+1, next);
         }
         return arr;
     }
