@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.concurrent.TimeUnit;
 
 public class Display implements ChangeListener, ActionListener {
     private ArrayList<Integer> arr;
@@ -26,6 +28,7 @@ public class Display implements ChangeListener, ActionListener {
     JPanel panel = new JPanel();
     Graphics2D g2 = null;
     ArrayList<Rectangle2D> arrRects;
+    InsertionSort iSortObj;
 
     public Display(ArrayList<Integer> arr) {
         this.arr = arr;
@@ -58,7 +61,6 @@ public class Display implements ChangeListener, ActionListener {
         g2 = (Graphics2D) g;
 
         arrRects = new ArrayList<Rectangle2D>();
-
     }
 
     public ArrayList<Integer> randomize(int n) {
@@ -85,7 +87,7 @@ public class Display implements ChangeListener, ActionListener {
     public void stateChanged(ChangeEvent e) {
         int n = ((JSlider)e.getSource()).getValue();
         this.arr = randomize(n);
-        this.displaySpeed = 1/n; //in ms? needs adjustment
+        this.displaySpeed = 1000/n;
         this.displayedArr.setText(this.arrToStr(this.arr));
         this.o.add(this.displayedArr);
         displayState(this.arr, this.g2);
@@ -109,7 +111,24 @@ public class Display implements ChangeListener, ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        if (e.getSource().equals(iSort)) {
+            iSortObj = new InsertionSort(arr);
+            for(int i=1;i<this.arr.size();i++){
+                this.arr = iSortObj.sort(arr, i);
+                displayState(this.arr, this.g2);
+                this.displayedArr.setText(this.arrToStr(this.arr));
+                this.o.add(this.displayedArr);
 
+
+                try {
+                    TimeUnit.MILLISECONDS.sleep((long)displaySpeed);
+                } catch (InterruptedException ex) {
+                    throw new RuntimeException(ex);
+                }
+
+                i++;
+            }
+        }
     }
 
     public double calculateBarHeightRelativeToMaxBarHeight(double n, double biggest) {
@@ -119,13 +138,13 @@ public class Display implements ChangeListener, ActionListener {
 }
 
 /*
-TODO:2
-    -Finish 1 sorting alg
+TODO:
+    -fix merge sort
     -Set speed of alg using slider
-    -Finish button for said alg
-    -Animate alg
     -Add colors for selected, compared, and changed nums
-    -Add number input to change arr length, set max arr length to what fills the screen
-    -Add rest of sorting algs
-    -Final touches
+    -Add number input to change arr length(same w/ speed), set max arr length to what fills the screen
+    -Add apcsa sorting algs
+    -update readme
+    -Final touches + add rest of algs
+    -add final algs
  */
