@@ -19,8 +19,8 @@ public class Display implements ChangeListener, ActionListener {
     private final JButton qSort = new JButton("Quick Sort");
     private final JButton bkSort = new JButton("Bucket Sort");
     private final JButton rSort = new JButton("Radix Sort");
-    private final JButton[] buttons = {mSort, iSort, sSort, bSort, qSort, bkSort, rSort};
-    private final JSlider slider = new JSlider(JSlider.HORIZONTAL, 1, 500, 25);
+    private final JButton[] buttons = {bSort, iSort, sSort, mSort, qSort, bkSort, rSort};
+    private final JSlider slider = new JSlider(JSlider.HORIZONTAL, 1, 60, 25);
     private final JLabel sliderDescription = new JLabel("Adjust number range & sorting speed:");
     private JLabel displayedArr;
     private double displaySpeed;
@@ -129,6 +129,13 @@ public class Display implements ChangeListener, ActionListener {
 
             }
         }
+        else if (e.getSource().equals(sSort)) {
+
+        } else if (e.getSource().equals(mSort)) {
+
+        } else if (e.getSource().equals(qSort)) {
+
+        }
     }
 
     public double calculateBarHeightRelativeToMaxBarHeight(double n, double biggest) {
@@ -139,11 +146,12 @@ public class Display implements ChangeListener, ActionListener {
 
 /*
 TODO:
-    -Add colors for selected, compared, and changed nums
-    -Add number input to change arr length(same w/ speed), set max arr length to what fills the screen
+    -Add number input to change arr length(same w/ speed)
     -Set speed of alg using slider
     -Add apcsa sorting algs
     -update readme
-    -Final touches + add rest of algs
-    -add final algs
+    -remove useless buttons, sort rest of buttons
+    -Add colors for selected, compared, and changed nums
+    -Final touches
+    -add final algs and colors for said algs
  */
