@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-import java.util.Timer;
 import java.util.concurrent.TimeUnit;
 
 public class Display implements ChangeListener, ActionListener {
@@ -26,6 +25,7 @@ public class Display implements ChangeListener, ActionListener {
     private double displaySpeed;
     private int maxBarHeight = 580;
     JPanel panel = new JPanel();
+    private JTextField arrLength;
     Graphics2D g2 = null;
     ArrayList<Rectangle2D> arrRects;
     InsertionSort iSortObj;
@@ -60,6 +60,11 @@ public class Display implements ChangeListener, ActionListener {
         Graphics g = o.getGraphics();
         g2 = (Graphics2D) g;
 
+        arrLength = new JTextField("arr len");
+        arrLength.setBounds(265, 40, 60, 40);
+        arrLength.addActionListener(this::actionPerformed);
+        o.add(arrLength);
+
         arrRects = new ArrayList<Rectangle2D>();
     }
 
@@ -91,6 +96,8 @@ public class Display implements ChangeListener, ActionListener {
         this.displayedArr.setText(this.arrToStr(this.arr));
         this.o.add(this.displayedArr);
         displayState(this.arr, this.g2);
+        arrLength.setText(String.valueOf(slider.getValue()));
+        this.o.add(arrLength);
     }
 
     public void displayState(ArrayList<Integer> arr, Graphics g) {
@@ -135,6 +142,25 @@ public class Display implements ChangeListener, ActionListener {
 
         } else if (e.getSource().equals(qSort)) {
 
+        } else {
+            try {
+                int n = Integer.valueOf(arrLength.getText());
+                this.arr = randomize(n);
+                this.displaySpeed = 10000 / n;
+                this.displayedArr.setText(this.arrToStr(this.arr));
+                this.o.add(this.displayedArr);
+                displayState(this.arr, this.g2);
+                if(n<=60&&n>=0) {
+                    slider.setValue(n);
+                } else if (n<=0) {
+                    return ;
+                } else {
+                    slider.setValue(60);
+                }
+                this.o.add(slider);
+            } catch (NumberFormatException err) {
+                ;
+            }
         }
     }
 
@@ -146,12 +172,10 @@ public class Display implements ChangeListener, ActionListener {
 
 /*
 TODO:
-    -Add number input to change arr length(same w/ speed)
-    -Set speed of alg using slider
     -Add apcsa sorting algs
     -update readme
-    -remove useless buttons, sort rest of buttons
     -Add colors for selected, compared, and changed nums
-    -Final touches
     -add final algs and colors for said algs
+    -Write documents
+    -Remove buttons when not have time
  */
