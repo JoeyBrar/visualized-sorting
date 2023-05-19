@@ -19,7 +19,7 @@ public class Display implements ChangeListener, ActionListener {
     private final JButton bkSort = new JButton("Bucket Sort");
     private final JButton rSort = new JButton("Radix Sort");
     private final JButton[] buttons = {bSort, iSort, sSort, mSort, qSort, bkSort, rSort};
-    private final JSlider slider = new JSlider(JSlider.HORIZONTAL, 1, 60, 25);
+    private final JSlider slider = new JSlider(JSlider.HORIZONTAL, 1, 1410, 25);
     private final JLabel sliderDescription = new JLabel("Adjust number range & sorting speed:");
     private JLabel displayedArr;
     private double displaySpeed;
@@ -29,6 +29,7 @@ public class Display implements ChangeListener, ActionListener {
     Graphics2D g2 = null;
     ArrayList<Rectangle2D> arrRects;
     InsertionSort iSortObj;
+    BubbleSort bSortObj;
 
     public Display(ArrayList<Integer> arr) {
         this.arr = arr;
@@ -118,7 +119,23 @@ public class Display implements ChangeListener, ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource().equals(iSort)) {
+        if(e.getSource().equals(bSort)) {
+            bSortObj = new BubbleSort(arr);
+            for(int i=1;i<=this.arr.size();i++){
+                System.out.println(i);
+                this.arr = bSortObj.sort(arr, i);
+                displayState(this.arr, this.g2);
+                this.displayedArr.setText(this.arrToStr(this.arr));
+                this.o.add(this.displayedArr);
+
+
+                try {
+                    TimeUnit.MILLISECONDS.sleep((long)displaySpeed);
+                } catch (InterruptedException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        } else if (e.getSource().equals(iSort)) {
             iSortObj = new InsertionSort(arr);
             for(int i=1;i<=this.arr.size();i++){
                 System.out.println(i);
@@ -135,8 +152,7 @@ public class Display implements ChangeListener, ActionListener {
                 }
 
             }
-        }
-        else if (e.getSource().equals(sSort)) {
+        } else if (e.getSource().equals(sSort)) {
 
         } else if (e.getSource().equals(mSort)) {
 
@@ -157,6 +173,11 @@ public class Display implements ChangeListener, ActionListener {
                 } else {
                     slider.setValue(60);
                 }
+//                if(n>1410||n<1) {
+//                    ;
+//                } else {
+//                    slider.setValue(n);
+//                }
                 this.o.add(slider);
             } catch (NumberFormatException err) {
                 ;
@@ -178,4 +199,5 @@ TODO:
     -add final algs and colors for said algs
     -Write documents
     -Remove buttons when not have time
+    -Display speed?
  */
