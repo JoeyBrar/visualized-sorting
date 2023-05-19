@@ -18,7 +18,7 @@ public class Display implements ChangeListener, ActionListener {
     private final JButton qSort = new JButton("Quick Sort");
     private final JButton bkSort = new JButton("Bucket Sort");
     private final JButton rSort = new JButton("Radix Sort");
-    private final JButton[] buttons = {bSort, iSort, sSort, mSort, qSort, bkSort, rSort};
+    private final JButton[] buttons = {bSort, sSort, iSort, mSort, qSort, bkSort, rSort};
     private final JSlider slider = new JSlider(JSlider.HORIZONTAL, 1, 1410, 25);
     private final JLabel sliderDescription = new JLabel("Adjust number range & sorting speed:");
     private JLabel displayedArr;
@@ -30,6 +30,7 @@ public class Display implements ChangeListener, ActionListener {
     ArrayList<Rectangle2D> arrRects;
     InsertionSort iSortObj;
     BubbleSort bSortObj;
+    SelectionSort sSortObj;
 
     public Display(ArrayList<Integer> arr) {
         this.arr = arr;
@@ -128,13 +129,28 @@ public class Display implements ChangeListener, ActionListener {
                 this.displayedArr.setText(this.arrToStr(this.arr));
                 this.o.add(this.displayedArr);
 
-
                 try {
                     TimeUnit.MILLISECONDS.sleep((long)displaySpeed);
                 } catch (InterruptedException ex) {
                     throw new RuntimeException(ex);
                 }
             }
+        } else if (e.getSource().equals(sSort)) {
+            sSortObj = new SelectionSort(arr);
+            for(int i=1;i<=this.arr.size();i++) {
+                System.out.println(i);
+                this.arr = sSortObj.sort(arr, i);
+                displayState(this.arr, this.g2);
+                this.displayedArr.setText(this.arrToStr(this.arr));
+                this.o.add(this.displayedArr);
+
+                try {
+                    TimeUnit.MILLISECONDS.sleep((long) displaySpeed);
+                } catch (InterruptedException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+
         } else if (e.getSource().equals(iSort)) {
             iSortObj = new InsertionSort(arr);
             for(int i=1;i<=this.arr.size();i++){
@@ -144,7 +160,6 @@ public class Display implements ChangeListener, ActionListener {
                 this.displayedArr.setText(this.arrToStr(this.arr));
                 this.o.add(this.displayedArr);
 
-
                 try {
                     TimeUnit.MILLISECONDS.sleep((long)displaySpeed);
                 } catch (InterruptedException ex) {
@@ -152,8 +167,6 @@ public class Display implements ChangeListener, ActionListener {
                 }
 
             }
-        } else if (e.getSource().equals(sSort)) {
-
         } else if (e.getSource().equals(mSort)) {
 
         } else if (e.getSource().equals(qSort)) {
@@ -199,5 +212,6 @@ TODO:
     -add final algs and colors for said algs
     -Write documents
     -Remove buttons when not have time
-    -Display speed?
+    -Display speed/comparisons?
+    -compress buttons?
  */
