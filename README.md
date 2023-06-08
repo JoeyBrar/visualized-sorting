@@ -8,8 +8,8 @@ This is a sorting algorithm visualizer. There is a slider and text-input field t
 
 1. Drag the slider to adjust the array length. If you want to have a more precise array length, use the text-input field.
   
-![Sorting5](https://github.com/JoeyBrar/visualized-sorting/assets/51928278/cf22d6a5-23a6-4cf8-865c-24ccb845f99e)
+![Selecting](https://github.com/JoeyBrar/visualized-sorting/blob/main/assets/Sorting5.gif)
   
 2. Click on the button with the sorting algorithm you want to use.
   
-![Sorting3](https://github.com/JoeyBrar/visualized-sorting/assets/51928278/c9127464-7601-4555-94e7-eef2605725db)
+![Sorting](https://github.com/JoeyBrar/visualized-sorting/blob/main/assets/Sorting3.gif)
