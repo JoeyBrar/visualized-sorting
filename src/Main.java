@@ -7,7 +7,6 @@ public class Main {
     public static void main(String[] args) throws FileNotFoundException {
         System.out.println("Hello world!");
         Display d = new Display(getData());
-
     }
 
     public static ArrayList<Integer> getData() throws FileNotFoundException {
