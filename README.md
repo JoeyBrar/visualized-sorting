@@ -2,23 +2,27 @@
 
 ## Description
 
-Provide a short description explaining the what, why, and how of your project. Use the following questions as a guide:
-
-- What was your motivation?
-- Why did you build this project? (Note: the answer is not "Because it was a homework assignment.")
-- What problem does it solve?
-- What did you learn?
-
-## Installation
-
-What are the steps required to install your project? Provide a step-by-step description of how to get the development environment running.
+This is a sorting algorithm visualizer. There is a slider and text-input field that gets a number, n, and a bar graph filled with numbers in a randomly generated array of length n. There are 5 buttons at the top that each correspond to a sorting algorithm. Clicking on one of these will display the bar graph being sorted with the algorithm specified on the clicked button.
 
 ## Usage
 
-Provide instructions and examples for use. Include screenshots as needed.
-
-To add a screenshot, create an `assets/images` folder in your repository and upload your screenshot to it. Then, using the relative filepath, add it to your README using the following syntax:
-
+1. Drag the slider to adjust the array length. If you want to have a more precise array length, use the text-input field.
+2. Click on the button with the sorting algorithm you want to use.
+    
+    Here is what it looks like when sorting an array:
     ```md
-    ![alt text](assets/images/screenshot.png)
+    ![alt text](assets/images/Sorting2.png)
+    ```
+    
+     ```md
+    ![alt text](assets/images/Sorting4.png)
+    ```
+
+    Here is what it looks like after the array is sorted:
+    ```md
+    ![alt text](assets/images/Sorting2.png)
+    ```
+    
+     ```md
+    ![alt text](assets/images/Sorting4.png)
     ```
